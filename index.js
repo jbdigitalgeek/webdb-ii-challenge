@@ -42,6 +42,17 @@ server.get("/:id", (req, res) => {
     });
 });
 
+server.post('/', (req, res) => {
+  Zoos.find()
+    .insert(req.body, 'id')
+    .then(newAnimal => {
+      res.status(201).json(newAnimal);
+    })
+    .catch(error => {
+      res.status(500).json({ error: `${error}` })
+  })
+})
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
