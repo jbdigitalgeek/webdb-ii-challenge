@@ -50,8 +50,25 @@ server.post('/', (req, res) => {
     })
     .catch(error => {
       res.status(500).json({ error: `${error}` })
-  })
-})
+    });
+});
+
+server.put('/:id', (req, res) => {
+  const updates = req.body;
+  Zoos.find()
+    .where({ id: req.params.id })
+    .update(updates)
+    .then(updated => {
+      if (updated > 0) {
+        res.status(200).json({ message: `${updated} animal(s) updated` });
+
+      } else {
+        res.status(404).json({ message: 'Animal not found' });
+      };
+    }).catch(error => {
+      res.status(500).json({ error: `${error}` });
+    });
+});
 
 const port = 3300;
 server.listen(port, function() {
