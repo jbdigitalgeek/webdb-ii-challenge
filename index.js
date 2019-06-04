@@ -70,6 +70,21 @@ server.put('/:id', (req, res) => {
     });
 });
 
+server.delete('/:id', (req, res) => {
+  Zoos.find()
+    .where({ id: req.params.id })
+    .del()
+    .then(removed => {
+      if (removed > 0) {
+        res.status(200).json({ message: `${removed} animal(s) deleted` });
+      } else {
+        res.status(404).json({ message: "Animal not found" });
+    }
+    })
+    .catch(error => {
+    res.status(500).json({error: `${error}`})
+  })
+})
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
