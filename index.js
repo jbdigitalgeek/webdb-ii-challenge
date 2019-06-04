@@ -2,6 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
 const server = express();
+const Zoos = require('./data/data-model')
 
 server.use(express.json());
 server.use(helmet());
@@ -22,13 +23,17 @@ const db = knex(knexConfig);
 
 // endpoints here
 server.get('/', (req, res) => {
-  db('zoos')
+  Zoos.find()
     .then(zoo => {
       res.status(200).json(zoo);
     })
     .catch(error => {
-    res.status(500).json({ message: `${error}`})
-  })
+      res.status(500).json({ message: `${error}` })
+    })
+});
+
+server.get('/:id', (req, res) => {
+  
 })
 
 const port = 3300;
